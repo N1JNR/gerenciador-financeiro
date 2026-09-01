@@ -7,10 +7,12 @@ import { TransactionType } from '../../shared/transaction/enums/transaction-type
 import { NoTransactions } from './components/no-transactions/no-transactions';
 import { HttpClient } from '@angular/common/http';
 import {TransactionsService } from '../../shared/transaction/services/transactions';
+import { MatAnchor, MatButtonModule } from "@angular/material/button";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [BidiModule, Balance, TransactionItem, NoTransactions],
+  imports: [BidiModule, Balance, TransactionItem, NoTransactions, MatAnchor, MatButtonModule, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
