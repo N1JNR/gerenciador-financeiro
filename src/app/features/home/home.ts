@@ -6,7 +6,7 @@ import { Transaction } from '../../shared/transaction/interfaces/transactions';
 import { TransactionType } from '../../shared/transaction/enums/transaction-type';
 import { NoTransactions } from './components/no-transactions/no-transactions';
 import { HttpClient } from '@angular/common/http';
-import {TransactionsService } from '../../shared/transaction/services/transactions';
+import {TransactionsService } from '../../shared/transaction/services/transactions.service';
 import { MatAnchor, MatButtonModule } from "@angular/material/button";
 import { RouterLink } from '@angular/router';
 
