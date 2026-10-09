@@ -1,7 +1,34 @@
 {
-    "transactions": [
-      { "id": 1, "title": "Salario", "value": 3000, "type": "income"},
-      { "id": 2, "title": "VA", "value": 900, "type": "income"},
-      { "id": 3, "title": "Aluguel", "value": 1000, "type": "outcome"}
-    ]
+  "transactions": [
+    {
+      "id": 1,
+      "title": "Salario",
+      "value": 3000,
+      "type": "income"
+    },
+    {
+      "id": 2,
+      "title": "VA",
+      "value": 900,
+      "type": "income"
+    },
+    {
+      "id": 3,
+      "title": "Aluguel",
+      "value": 1000,
+      "type": "outcome"
+    },
+    {
+      "title": "wasd",
+      "type": "outcome",
+      "value": 1000,
+      "id": 4
+    },
+    {
+      "title": "wasdwdasd",
+      "type": "outcome",
+      "value": 0.11,
+      "id": 5
+    }
+  ]
 }

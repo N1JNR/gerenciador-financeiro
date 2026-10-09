@@ -8,6 +8,9 @@ import { TransactionType } from '../../../../shared/transaction/enums/transactio
 import { NgxMaskDirective } from 'ngx-mask';
 import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
 import { TransactionPayload } from '../../../../shared/transaction/interfaces/transactions';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
 
 @Component({
   selector: 'app-create',
@@ -24,6 +27,8 @@ import { TransactionPayload } from '../../../../shared/transaction/interfaces/tr
 })
 export class CreateComponent {
   private transactionsService = inject(TransactionsService);
+  private router = inject(Router);
+  private feedbackService = inject(FeedbackService);
 
   readonly transactionType = TransactionType;
 
@@ -50,15 +55,12 @@ export class CreateComponent {
       value: this.form.value.value as number,
     };
 
-
-
     this.transactionsService.post(payload).subscribe({
       next: () => {
-        
+        this.feedbackService.sucess('Transaction created successfully!');
+        this.router.navigate(['/']);
       },
-      error: (error) => {
-       
-      },
+      error: (error) => {},
     });
   }
 }
