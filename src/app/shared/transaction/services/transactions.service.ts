@@ -14,6 +14,14 @@ export class TransactionsService {
       .get<Transaction[]>('http://localhost:3000/transactions')
   }
 
+   getById(id: string) {
+   return this.httpclient.get<Transaction>
+   (
+    `http://localhost:3000/transactions/${id}`
+  );
+  }
+
+
 
   post(payload: TransactionPayload) {
     return this.httpclient.post<Transaction>(

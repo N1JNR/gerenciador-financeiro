@@ -1,8 +1,8 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Transaction } from '../../../../shared/transaction/interfaces/transactions';
-import { TransactionValue } from "./components/transaction-value/transaction-value";
+import { TransactionValue } from './components/transaction-value/transaction-value';
 
 @Component({
   selector: 'app-transaction-item',
@@ -11,9 +11,7 @@ import { TransactionValue } from "./components/transaction-value/transaction-val
   styleUrl: './transaction-item.scss',
 })
 export class TransactionItem {
+  transaction = input.required<Transaction>();
 
-
-transaction = input.required<Transaction>();
-
-
+  edit = output<Transaction>();
 }

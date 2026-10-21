@@ -8,8 +8,7 @@ import { TransactionType } from '../../../../shared/transaction/enums/transactio
 import { NgxMaskDirective } from 'ngx-mask';
 import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
 import { TransactionPayload } from '../../../../shared/transaction/interfaces/transactions';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
 
 @Component({
@@ -22,15 +21,20 @@ import { FeedbackService } from '../../../../shared/feedback/services/feedback.s
     MatButtonToggleModule,
     NgxMaskDirective,
   ],
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.scss',
+  templateUrl: './create-or-edit.component.html',
+  styleUrl: './create-or-edit.component.scss',
 })
-export class CreateComponent {
+export class CreateorEditComponent {
+  private activatedRoute = inject(ActivatedRoute);
   private transactionsService = inject(TransactionsService);
   private router = inject(Router);
   private feedbackService = inject(FeedbackService);
 
   readonly transactionType = TransactionType;
+
+  ngOnInit(): void {
+
+  }
 
   form = new FormGroup({
     type: new FormControl('', {

@@ -6,23 +6,36 @@ import { Transaction } from '../../shared/transaction/interfaces/transactions';
 import { TransactionType } from '../../shared/transaction/enums/transaction-type';
 import { NoTransactions } from './components/no-transactions/no-transactions';
 import { HttpClient } from '@angular/common/http';
-import {TransactionsService } from '../../shared/transaction/services/transactions.service';
-import { MatAnchor, MatButtonModule } from "@angular/material/button";
-import { RouterLink } from '@angular/router';
+import { TransactionsService } from '../../shared/transaction/services/transactions.service';
+import { MatAnchor, MatButtonModule } from '@angular/material/button';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [BidiModule, Balance, TransactionItem, NoTransactions, MatAnchor, MatButtonModule, RouterLink],
+  imports: [
+    BidiModule,
+    Balance,
+    TransactionItem,
+    NoTransactions,
+    MatAnchor,
+    MatButtonModule,
+    RouterLink,
+  ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home implements OnInit {
   private transactionsService = inject(TransactionsService);
+  private router = inject(Router);
 
   transactions = signal<Transaction[]>([]);
 
   ngOnInit(): void {
     this.getTransactions();
+  }
+
+  edit(transaction: Transaction) {
+    this.router.navigate(['edit', transaction.id]);
   }
 
   private getTransactions() {
