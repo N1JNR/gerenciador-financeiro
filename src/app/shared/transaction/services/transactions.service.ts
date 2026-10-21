@@ -25,7 +25,14 @@ export class TransactionsService {
 
   post(payload: TransactionPayload) {
     return this.httpclient.post<Transaction>(
-        'http://localhost:3000/transactions', 
+        'http://localhost:3000/transactions',
+        payload
+    )
+  }
+
+  put(id: number, payload: TransactionPayload) {
+    return this.httpclient.put<Transaction>(
+        `http://localhost:3000/transactions/${id}`,
         payload
     )
   }

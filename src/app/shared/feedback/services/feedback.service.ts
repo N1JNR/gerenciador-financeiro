@@ -9,7 +9,7 @@ export class FeedbackService {
 private snackBar = inject(MatSnackBar);
 
 
-  sucess(message: string) {
+  success(message: string) {
     this.snackBar.open(message, 'OK', {
       panelClass: 'snack-bar-success-feedback',
     });

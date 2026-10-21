@@ -7,7 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { TransactionType } from '../../../../shared/transaction/enums/transaction-type';
 import { NgxMaskDirective } from 'ngx-mask';
 import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
-import { TransactionPayload } from '../../../../shared/transaction/interfaces/transactions';
+import {
+  Transaction,
+  TransactionPayload,
+} from '../../../../shared/transaction/interfaces/transactions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
 
@@ -24,7 +27,7 @@ import { FeedbackService } from '../../../../shared/feedback/services/feedback.s
   templateUrl: './create-or-edit.component.html',
   styleUrl: './create-or-edit.component.scss',
 })
-export class CreateorEditComponent {
+export class CreateOrEditComponent {
   private activatedRoute = inject(ActivatedRoute);
   private transactionsService = inject(TransactionsService);
   private router = inject(Router);
@@ -32,18 +35,22 @@ export class CreateorEditComponent {
 
   readonly transactionType = TransactionType;
 
-  ngOnInit(): void {
+  get transaction(): Transaction {
+    return this.activatedRoute.snapshot.data['transaction'];
+  }
 
+  get isEdit(): boolean {
+    return Boolean(this.transaction);
   }
 
   form = new FormGroup({
-    type: new FormControl('', {
+    type: new FormControl(this.transaction?.type ?? '', {
       validators: [Validators.required],
     }),
-    title: new FormControl('', {
+    title: new FormControl(this.transaction?.title ?? '', {
       validators: [Validators.required],
     }),
-    value: new FormControl(0, {
+    value: new FormControl(this.transaction?.value ?? 0, {
       validators: [Validators.required],
     }),
   });
@@ -59,12 +66,22 @@ export class CreateorEditComponent {
       value: this.form.value.value as number,
     };
 
-    this.transactionsService.post(payload).subscribe({
-      next: () => {
-        this.feedbackService.sucess('Transaction created successfully!');
-        this.router.navigate(['/']);
-      },
-      error: (error) => {},
-    });
+    if (this.isEdit) {
+      this.transactionsService.put(this.transaction.id, payload).subscribe({
+        next: () => {
+          this.feedbackService.success('Transaction updated successfully!');
+          this.router.navigate(['/']);
+        },
+        error: () => {},
+      });
+    } else {
+      this.transactionsService.post(payload).subscribe({
+        next: () => {
+          this.feedbackService.success('Transaction created successfully!');
+          this.router.navigate(['/']);
+        },
+        error: () => {},
+      });
+    }
   }
 }
