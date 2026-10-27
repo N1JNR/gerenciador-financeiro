@@ -13,6 +13,7 @@ import {
 } from '../../../../shared/transaction/interfaces/transactions';
 import { Router } from '@angular/router';
 import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-create',
@@ -36,21 +37,22 @@ export class CreateOrEditComponent {
 
   readonly transactionType = TransactionType;
 
- isEdit = computed(() => Boolean(this.transaction()));
+  isEdit = computed(() => Boolean(this.transaction()));
 
   form = computed(
-    () => 
+    () =>
       new FormGroup({
-    type: new FormControl(this.transaction()?.type ?? '', {
-      validators: [Validators.required],
-    }),
-    title: new FormControl(this.transaction()?.title ?? '', {
-      validators: [Validators.required],
-    }),
-    value: new FormControl(this.transaction()?.value ?? 0, {
-      validators: [Validators.required],
-    }),
-  }));
+        type: new FormControl(this.transaction()?.type ?? '', {
+          validators: [Validators.required],
+        }),
+        title: new FormControl(this.transaction()?.title ?? '', {
+          validators: [Validators.required],
+        }),
+        value: new FormControl(this.transaction()?.value ?? 0, {
+          validators: [Validators.required],
+        }),
+      }),
+  );
 
   submit() {
     if (this.form().invalid) {
@@ -63,22 +65,22 @@ export class CreateOrEditComponent {
       value: this.form().value.value as number,
     };
 
+    this.createOrEdit(payload).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+    });
+  }
+
+  private createOrEdit(payload: TransactionPayload) {
     if (this.isEdit()) {
-      this.transactionsService.put(this.transaction()!.id, payload).subscribe({
-        next: () => {
-          this.feedbackService.success('Transaction updated successfully!');
-          this.router.navigate(['/']);
-        },
-        error: () => {},
-      });
+      return this.transactionsService
+        .put(this.transaction()!.id, payload)
+        .pipe(tap(() => this.feedbackService.success('Transaction updated successfully!')));
     } else {
-      this.transactionsService.post(payload).subscribe({
-        next: () => {
-          this.feedbackService.success('Transaction created successfully!');
-          this.router.navigate(['/']);
-        },
-        error: () => {},
-      });
+      return this.transactionsService
+        .post(payload)
+        .pipe(tap(() => this.feedbackService.success('Transaction created successfully!')));
     }
   }
 }
