@@ -11,6 +11,7 @@ import { MatAnchor, MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import { FeedbackService } from '../../shared/feedback/services/feedback.service';
 import { ConfirmationDialogService } from '../../shared/dialog/confirmation/services/confirmation-dialog.service';
+import { TransactionsContainerComponent } from './components/transactions-container/transactions-container.component';
 
 
 @Component({
@@ -23,6 +24,7 @@ import { ConfirmationDialogService } from '../../shared/dialog/confirmation/serv
     MatAnchor,
     MatButtonModule,
     RouterLink,
+    TransactionsContainerComponent,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
