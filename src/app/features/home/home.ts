@@ -1,17 +1,17 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { BidiModule } from '@angular/cdk/bidi';
-import { Balance } from './components/balance/balance';
-import { TransactionItem } from './components/transaction-item/transaction-item';
+import { Balance } from './pages/list/components/balance/balance';
+import { TransactionItem } from './pages/list/components/transaction-item/transaction-item';
 import { Transaction } from '../../shared/transaction/interfaces/transactions';
 import { TransactionType } from '../../shared/transaction/enums/transaction-type';
-import { NoTransactions } from './components/no-transactions/no-transactions';
+import { NoTransactions } from './pages/list/components/no-transactions/no-transactions';
 import { HttpClient } from '@angular/common/http';
 import { TransactionsService } from '../../shared/transaction/services/transactions.service';
 import { MatAnchor, MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import { FeedbackService } from '../../shared/feedback/services/feedback.service';
 import { ConfirmationDialogService } from '../../shared/dialog/confirmation/services/confirmation-dialog.service';
-import { TransactionsContainerComponent } from './components/transactions-container/transactions-container.component';
+import { TransactionsContainerComponent } from './pages/list/components/transactions-container/transactions-container.component';
 
 
 @Component({

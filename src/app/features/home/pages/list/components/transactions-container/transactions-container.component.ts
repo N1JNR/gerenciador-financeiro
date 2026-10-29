@@ -1,5 +1,5 @@
 import { Component, contentChild, input, TemplateRef } from '@angular/core';
-import { Transaction } from '../../../../shared/transaction/interfaces/transactions';
+import { Transaction } from '../../../../../../shared/transaction/interfaces/transactions';
 import { NgTemplateOutlet } from '@angular/common';
 
 
@@ -14,5 +14,7 @@ export class TransactionsContainerComponent {
 
 
   itemTemplate = contentChild.required<TemplateRef<unknown>>('item');
+  noItemsTemplate = contentChild.required<TemplateRef<unknown>>('noItems');
+
 
 }
