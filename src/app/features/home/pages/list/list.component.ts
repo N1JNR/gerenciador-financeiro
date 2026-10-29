@@ -1,5 +1,5 @@
 import { BidiModule } from '@angular/cdk/bidi';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, linkedSignal, signal } from '@angular/core';
 import { MatAnchor, MatButtonModule } from '@angular/material/button';
 import { RouterLink, Router } from '@angular/router';
 import { ConfirmationDialogService } from '../../../../shared/dialog/confirmation/services/confirmation-dialog.service';
@@ -10,7 +10,6 @@ import { Balance } from './components/balance/balance';
 import { NoTransactions } from './components/no-transactions/no-transactions';
 import { TransactionItem } from './components/transaction-item/transaction-item';
 import { TransactionsContainerComponent } from './components/transactions-container/transactions-container.component';
-
 
 @Component({
   selector: 'app-list',
@@ -28,29 +27,28 @@ import { TransactionsContainerComponent } from './components/transactions-contai
   styleUrl: './list.component.scss',
 })
 export class ListComponent {
- private transactionsService = inject(TransactionsService);
+  private transactionsService = inject(TransactionsService);
   private feedbackService = inject(FeedbackService);
   private router = inject(Router);
   private confirmationDialogService = inject(ConfirmationDialogService);
 
+  transactions = input.required<Transaction[]>();
 
-  transactions = signal<Transaction[]>([]);
-
-  ngOnInit(): void {
-    this.getTransactions();
-  }
+  items = linkedSignal(() => this.transactions());
 
   edit(transaction: Transaction) {
     this.router.navigate(['/edit', transaction.id]);
   }
 
   remove(transaction: Transaction) {
-    this.confirmationDialogService.open({
-      title: 'Deletar transação',
-      message: 'Você realmente quer deletar essa transação?',
-      yesBtnText: 'Sim!',
-      noBtnText: 'Não',
-    }).subscribe({
+    this.confirmationDialogService
+      .open({
+        title: 'Deletar transação',
+        message: 'Você realmente quer deletar essa transação?',
+        yesBtnText: 'Sim!',
+        noBtnText: 'Não',
+      })
+      .subscribe({
         next: () => {
           this.transactionsService.delete(transaction.id).subscribe({
             next: () => {
@@ -63,16 +61,6 @@ export class ListComponent {
   }
 
   private removeTransactionFromArray(transaction: Transaction) {
-    this.transactions.update((transactions) =>
-      transactions.filter((item) => item.id !== transaction.id),
-    );
-  }
-
-  private getTransactions() {
-    this.transactionsService.getAll().subscribe({
-      next: (transactions) => {
-        this.transactions.set(transactions);
-      },
-    });
+    this.items.update((transactions) => transactions.filter((item) => item.id !== transaction.id));
   }
 }
